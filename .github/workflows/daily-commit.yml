@@ -62,5 +62,5 @@ jobs:
         run: |
           git add last-run.txt
           git commit -m "Daily commit - $(date)" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push https://x-access-token:${{ secrets.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 }}@github.com/${{ github.repository }}.git
 
