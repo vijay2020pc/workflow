@@ -41,7 +41,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Git Config (vijaygpt2017@gmail.com)
+      - name: Set Git Config (vijay1912023@akgec.ac.in)
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "vijaygpt2017@gmail.com"
@@ -62,5 +62,4 @@ jobs:
         run: |
           git add last-run.txt
           git commit -m "Daily commit - $(date)" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.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 }}@github.com/${{ github.repository }}.git
-
+          git push 
