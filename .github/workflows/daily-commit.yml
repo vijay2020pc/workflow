@@ -1,0 +1,30 @@
+name: Daily Commit
+
+on:
+  schedule:
+    # Runs every day at 02:00 UTC
+    - cron: '0 2 * * *'
+
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Git Config (vijay1912023@akgec.ac.in)
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "vijay1912023@akgec.ac.in"
+
+      - name: Make a Change
+        run: |
+          echo "Last run: $(date)" > last-run.txt
+
+      - name: Commit and Push Changes
+        run: |
+          git add last-run.txt
+          git commit -m "Daily commit - $(date)"
+          git push
