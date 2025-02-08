@@ -2,35 +2,6 @@ name: Daily Commit
 
 on:
   schedule:
-    # Runs every day at 02:00 UTC
-    - cron: '0 2 * * *'
-
-  workflow_dispatch: # Allows manual triggering
-
-jobs:
-  commit:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set Git Config (vijay1912023@akgec.ac.in)
-        run: |
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "vijay1912023@akgec.ac.in"
-
-      - name: Make a Change
-        run: |
-          echo "Last run: $(date)" > last-run.txt
-
-      - name: Commit and Push Changes
-        run: |
-          git add last-run.txt
-          git commit -m "Daily commit - $(date)"
-          name: Daily Commit
-
-on:
-  schedule:
     - cron: '0 2 * * *'  # Runs daily at 02:00 UTC
   workflow_dispatch:  # Allows manual execution
 
@@ -40,11 +11,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # Ensures manual authentication is used
 
       - name: Set Git Config (vijay1912023@akgec.ac.in)
         run: |
           git config --global user.name "GitHub Action Bot"
-          git config --global user.email "vijaygpt2017@gmail.com"
+          git config --global user.email "vijay1912023@akgec.ac.in"
 
       - name: Ensure last-run.txt Exists
         run: |
@@ -53,13 +26,15 @@ jobs:
             echo "Initial run: $(date)" > last-run.txt
           fi
 
-      - name: Make a Change
+      - name: Update last-run.txt
         run: |
           echo "Last run: $(date)" >> last-run.txt
-          echo $RANDOM >> last-run.txt  # Ensures file content changes
+          echo "Random Number: $RANDOM" >> last-run.txt  # Forces a change
 
       - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add last-run.txt
           git commit -m "Daily commit - $(date)" || echo "No changes to commit"
-          git push 
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
